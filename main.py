@@ -1,4 +1,5 @@
 import glob
+import re
 
 from os import path
 from time import sleep
@@ -16,6 +17,8 @@ def main():
 
 
 def parser(args):
+    regex = re.compile(r'^#.*')
+
     filelist_trailing = glob.glob(args + "*")
     if len(filelist_trailing) > 1:
         final_list = filelist_trailing
@@ -29,6 +32,8 @@ def parser(args):
             with open(file, 'r') as file:
                 filecontent = file.readlines()
                 for line in filecontent[4:]:
+                    if regex.search(line):
+                        continue
                     concatfile.write(line)
 
 
