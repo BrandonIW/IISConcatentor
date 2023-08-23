@@ -17,6 +17,8 @@ def main():
 
 
 def parser(args):
+    """ Ignore lines that start with # as IIS tends to put those headers in multiple times per file. Parse it so
+    the program can take trailing \\ or fill in with a trailing \\ if not present """
     regex = re.compile(r'^#.*')
 
     filelist_trailing = glob.glob(args + "*")
@@ -29,12 +31,13 @@ def parser(args):
         concatfile.write("date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) "
                          "cs(Referer) sc-status sc-substatus sc-win32-status time-taken\n")
         for file in final_list:
-            with open(file, 'r') as file:
-                filecontent = file.readlines()
+            with open(file, 'r', encoding='utf-8') as ogfile:
+                filecontent = ogfile.readlines()
                 for line in filecontent[4:]:
                     if regex.search(line):
                         continue
                     concatfile.write(line)
+
 
 
 def _input_validator(args):
