@@ -23,6 +23,8 @@ def parser(args):
         final_list = glob.glob(args + "\\*")
 
     with open('concatfile.txt', 'a') as concatfile:
+        concatfile.write("date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) "
+                         "cs(Referer) sc-status sc-substatus sc-win32-status time-taken\n")
         for file in final_list:
             with open(file, 'r') as file:
                 filecontent = file.readlines()
